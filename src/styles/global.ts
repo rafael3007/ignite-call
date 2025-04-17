@@ -1,4 +1,4 @@
-import { globalCss } from "@ignite-ui/react"
+import { globalCss } from '@ignite-ui/react'
 
 export const globalStyles = globalCss({
   '*': {
@@ -19,6 +19,4 @@ export const globalStyles = globalCss({
     fontWeight: 400,
     fontSize: '1rem',
   },
-
-  
 })
