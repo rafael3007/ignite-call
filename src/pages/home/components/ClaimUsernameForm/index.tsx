@@ -5,10 +5,13 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { claimUsernameFormSchema } from '@/src/pages/home/validators/claim-username-form-schema'
+import { useRouter } from 'next/router'
 
 type ClaimUsernameFormData = z.infer<typeof claimUsernameFormSchema>
 
 export default function ClaimUsernameForm() {
+  const router = useRouter()
+
   const {
     register,
     handleSubmit,
@@ -18,7 +21,9 @@ export default function ClaimUsernameForm() {
   })
 
   async function handleClaimUsername(data: ClaimUsernameFormData) {
-    console.log(data)
+    const { username } = data
+
+    await router.push(`/register?username=${username}`)
   }
 
   return (

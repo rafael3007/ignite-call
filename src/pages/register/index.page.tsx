@@ -1,25 +1,50 @@
+import { useRouter } from 'next/router'
+import { useEffect } from 'react'
 import { Button, Heading, MultiStep, Text, TextInput } from '@ignite-ui/react'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { ArrowRight } from 'phosphor-react'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
+
 import { registerFormSchema } from './validators/register-form-schema'
-import { zodResolver } from '@hookform/resolvers/zod'
 import { Container, Form, FormError, Header } from './styles'
+import { api } from '@/src/lib/axios'
+import { AxiosError } from 'axios'
 
 type registerFormSchemaData = z.infer<typeof registerFormSchema>
 
 export default function Register() {
+  const router = useRouter()
+
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm<registerFormSchemaData>({
     resolver: zodResolver(registerFormSchema),
   })
 
   async function handleRegister(data: registerFormSchemaData) {
-    console.log(data)
+    try {
+      await api.post('/users', {
+        username: data.username,
+        name: data.name,
+      })
+    } catch (error) {
+      if (error instanceof AxiosError && error?.response?.data.message) {
+        return alert(error.response.data.message)
+      }
+
+      console.error(error)
+    }
   }
+
+  useEffect(() => {
+    if (router.query.username) {
+      setValue('username', String(router.query.username))
+    }
+  }, [router.query?.username, setValue])
 
   return (
     <Container>
