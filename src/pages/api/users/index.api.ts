@@ -1,5 +1,5 @@
 import { prisma } from '@/src/lib/prisma'
-import type { NextApiRequest, NextApiResponse } from 'next'
+import { NextApiRequest, NextApiResponse } from 'next'
 import { setCookie } from 'nookies'
 
 export default async function handler(
@@ -19,7 +19,7 @@ export default async function handler(
   })
 
   if (userExists) {
-    return res.status(400).json({
+    return res.status(404).json({
       message: 'Username already taken.',
     })
   }
@@ -36,5 +36,7 @@ export default async function handler(
     path: '/',
   })
 
-  return res.status(201).json(user)
+  return res.status(201).json({
+    message: 'User created successfully.',
+  })
 }

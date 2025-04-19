@@ -1,14 +1,14 @@
 import { PrismaClient } from '@prisma/client'
 
-export const prisma = new PrismaClient({
-  log: ['query', 'info', 'warn', 'error'],
-  // errorFormat: 'pretty',
-  // datasources: {
-  //   db: {
-  //     url: process.env.DATABASE_URL,
-  //   },
-  // },
-  // __internal: {
-  //   measurePerformance: true,
-  // },
-})
+declare global {
+  // eslint-disable-next-line no-var
+  var prisma: PrismaClient | undefined
+}
+
+export const prisma =
+  global.prisma ||
+  new PrismaClient({
+    log: process.env.NODE_ENV === 'development' ? ['query'] : [],
+  })
+
+if (process.env.NODE_ENV !== 'production') global.prisma = prisma

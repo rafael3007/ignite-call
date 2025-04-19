@@ -28,12 +28,13 @@ export default function Register() {
   async function handleRegister(data: registerFormSchemaData) {
     try {
       await api.post('/users', {
-        username: data.username,
         name: data.name,
+        username: data.username,
       })
 
       await router.push('/register/connect-calendar')
     } catch (error) {
+      console.log('sfgasd')
       if (error instanceof AxiosError && error?.response?.data.message) {
         return alert(error.response.data.message)
       }
