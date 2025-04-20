@@ -43,6 +43,10 @@ export default function Register() {
     }
   }
 
+  async function handleNavigateToNextStep() {
+    await router.push('/register/connect-calendar')
+  }
+
   useEffect(() => {
     if (router.query.username) {
       setValue('username', String(router.query.username))
@@ -90,7 +94,11 @@ export default function Register() {
           )}
         </label>
 
-        <Button disabled={isSubmitting} type="submit">
+        <Button
+          onClick={handleNavigateToNextStep}
+          disabled={isSubmitting}
+          type="submit"
+        >
           Próximo passo
           <ArrowRight weight="bold" />
         </Button>
