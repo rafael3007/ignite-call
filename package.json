@@ -13,6 +13,7 @@
     "@ignite-ui/react": "^2.2.4",
     "@prisma/client": "^6.6.0",
     "axios": "^1.8.4",
+    "dayjs": "^1.11.13",
     "next": "15.3.0",
     "next-auth": "^4.24.11",
     "next-seo": "^6.6.0",
