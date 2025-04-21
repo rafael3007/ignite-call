@@ -6,18 +6,35 @@ import {
   TimePickerItem,
   TimePickerList,
 } from './styles'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import dayjs from 'dayjs'
 import { api } from '@/src/lib/axios'
 import { useRouter } from 'next/router'
 import type { Availability } from '@/src/types/availability'
+import { useQuery } from '@tanstack/react-query'
 
 export function CalendarStep() {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null)
-  const [availability, setAvailability] = useState<Availability | null>(null)
+
+  const selectedDateWithoutTime = selectedDate
+    ? dayjs(selectedDate).format('YYYY-MM-DD')
+    : null
 
   const router = useRouter()
   const username = String(router.query.username)
+
+  const { data: availability } = useQuery<Availability>({
+    queryKey: ['availability', selectedDateWithoutTime, username],
+    enabled: !!selectedDateWithoutTime,
+    queryFn: async () => {
+      const response = await api.get(`/users/${username}/availability`, {
+        params: {
+          date: selectedDateWithoutTime,
+        },
+      })
+      return response.data
+    },
+  })
 
   const isDateSelected = !!selectedDate
 
@@ -25,22 +42,6 @@ export function CalendarStep() {
   const describeDate = selectedDate
     ? dayjs(selectedDate).format('DD[ de ]MMMM')
     : null
-
-  useEffect(() => {
-    if (!selectedDate) {
-      return
-    }
-
-    api
-      .get(`/users/${username}/availability`, {
-        params: {
-          date: dayjs(selectedDate).format('YYYY-MM-DD'),
-        },
-      })
-      .then((response) => {
-        setAvailability(response.data)
-      })
-  }, [selectedDate, username])
 
   return (
     <Container isTimePickerOpen={isDateSelected}>
