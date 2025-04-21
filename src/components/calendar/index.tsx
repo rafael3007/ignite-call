@@ -21,11 +21,16 @@ interface CalendarWeek {
 
 type CalendarWeeks = CalendarWeek[]
 
-export function Calendar() {
+interface CalendarProps {
+  selectedDate: Date | null
+  onDateSelected: (date: Date) => void
+}
+
+export function Calendar({ onDateSelected, selectedDate }: CalendarProps) {
   const [currentDate, setCurrentDate] = useState(() => {
     return dayjs().set('date', 1)
   })
-
+  console.log(selectedDate)
   const currentMonth = currentDate.format('MMMM')
   const currentYear = currentDate.format('YYYY')
 
@@ -45,7 +50,7 @@ export function Calendar() {
     const daysInMonthArray = Array.from({
       length: currentDate.daysInMonth(),
     }).map((_, i) => {
-      return currentDate.set('date', i + 1).format('DD')
+      return currentDate.set('date', i + 1)
     })
 
     const firstWeekDay = currentDate.get('day')
@@ -54,7 +59,7 @@ export function Calendar() {
       length: firstWeekDay,
     })
       .map((_, i) => {
-        return currentDate.subtract(i + 1, 'day').format('DD')
+        return currentDate.subtract(i + 1, 'day')
       })
       .reverse()
 
@@ -65,27 +70,25 @@ export function Calendar() {
     const nextMonthFillArray = Array.from({
       length: 7 - (lastWeekDay + 1),
     }).map((_, i) => {
-      return currentDate.add(i, 'day').format('DD')
+      return currentDate.add(i, 'day')
     })
 
     const calendarDays = [
-      ...previousMonthFillArray.map((_, i) => {
+      ...previousMonthFillArray.map((date) => {
         return {
-          date: currentDate.subtract(firstWeekDay - i, 'day'),
+          date,
           disabled: true,
         }
       }),
-      ...daysInMonthArray.map((_, i) => {
+      ...daysInMonthArray.map((date) => {
         return {
-          date: currentDate.set('date', i + 1),
-          disabled: false,
+          date,
+          disabled: date.endOf('day').isBefore(new Date()),
         }
       }),
-      ...nextMonthFillArray.map((_, i) => {
+      ...nextMonthFillArray.map((date) => {
         return {
-          date: currentDate
-            .set('date', currentDate.daysInMonth())
-            .add(i + 1, 'day'),
+          date,
           disabled: true,
         }
       }),
@@ -135,14 +138,17 @@ export function Calendar() {
           </tr>
         </thead>
         <tbody>
-          {calendarWeeks.map((week) => {
+          {calendarWeeks.map(({ week, days }) => {
             return (
-              <tr key={week.week}>
-                {week.days.map((day) => {
+              <tr key={week}>
+                {days.map(({ date, disabled }) => {
                   return (
-                    <td key={day.date.toString()}>
-                      <CalendarDay disabled={day.disabled}>
-                        {day.date.format('D')}
+                    <td key={date.toString()}>
+                      <CalendarDay
+                        onClick={() => onDateSelected(date.toDate())}
+                        disabled={disabled}
+                      >
+                        {date.get('date')}
                       </CalendarDay>
                     </td>
                   )
