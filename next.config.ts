@@ -3,6 +3,9 @@ import type { NextConfig } from 'next'
 const nextConfig: NextConfig = {
   /* config options here */
   reactStrictMode: true,
+  experimental: {
+    serverComponentsExternalPackages: ['@prisma/client'],
+  },
   pageExtensions: ['page.tsx', 'page.ts', 'api.ts', 'index.tsx'],
 }
 
