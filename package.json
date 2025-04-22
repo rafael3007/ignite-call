@@ -15,10 +15,12 @@
   "dependencies": {
     "@hookform/resolvers": "^5.0.1",
     "@ignite-ui/react": "^2.2.4",
+    "@prisma/adapter-neon": "^6.6.0",
     "@prisma/client": "^6.6.0",
     "@tanstack/react-query": "^5.74.4",
     "axios": "^1.8.4",
     "dayjs": "^1.11.13",
+    "dotenv": "^16.5.0",
     "googleapis": "^148.0.0",
     "next": "15.3.0",
     "next-auth": "^4.24.11",
