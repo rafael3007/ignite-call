@@ -67,7 +67,7 @@ export default function TimeIntervals() {
     await router.push('/register/update-profile')
   }
 
-  const weekDays = getWeekDays()
+  const weekDays = getWeekDays({})
 
   const intervals = watch('intervals')
 

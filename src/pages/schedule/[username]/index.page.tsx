@@ -3,6 +3,7 @@ import { GetStaticProps } from 'next'
 import { Container, UserHeader } from './styles'
 import { prisma } from '../../../lib/prisma'
 import { ScheduleForm } from './schedule-form'
+import { NextSeo } from 'next-seo'
 
 interface SchudeleProps {
   user: {
@@ -15,6 +16,7 @@ interface SchudeleProps {
 export default function Schedules({ user }: SchudeleProps) {
   return (
     <Container>
+      <NextSeo title={`Agendar com ${user.name} | Ignite Call`} />
       <UserHeader>
         <Avatar src={user.avatarUrl} />
         <Heading>{user.name}</Heading>

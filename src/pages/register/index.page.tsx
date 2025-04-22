@@ -10,6 +10,7 @@ import { registerFormSchema } from './validators/register-form-schema'
 import { Container, Form, FormError, Header } from './styles'
 import { api } from '@/src/lib/axios'
 import { AxiosError } from 'axios'
+import { NextSeo } from 'next-seo'
 
 type registerFormSchemaData = z.infer<typeof registerFormSchema>
 
@@ -54,55 +55,58 @@ export default function Register() {
   }, [router.query?.username, setValue])
 
   return (
-    <Container>
-      <Header>
-        <Heading as="strong">Bem vindo ao Ignite Call!</Heading>
-        <Text>
-          Precisamos de algumas informações para criar seu perfil! Ah, você pode
-          editar essas informações depois.
-        </Text>
+    <>
+      <NextSeo title="Crie uma conta | Ignite Call" />
+      <Container>
+        <Header>
+          <Heading as="strong">Bem vindo ao Ignite Call!</Heading>
+          <Text>
+            Precisamos de algumas informações para criar seu perfil! Ah, você
+            pode editar essas informações depois.
+          </Text>
 
-        <MultiStep size={4} currentStep={1} />
-      </Header>
-      <Form as="form" onSubmit={handleSubmit(handleRegister)}>
-        <label>
-          <Text size={'sm'}>Nome de usuário</Text>
-          <TextInput
-            {...register('username')}
-            prefix="ignite.com/"
-            placeholder="seu-usuário"
-            onPointerEnterCapture={undefined}
-            onPointerLeaveCapture={undefined}
-            crossOrigin={undefined}
-          />
-          {errors.username && (
-            <FormError size={'sm'}>{errors.username.message}</FormError>
-          )}
-        </label>
+          <MultiStep size={4} currentStep={1} />
+        </Header>
+        <Form as="form" onSubmit={handleSubmit(handleRegister)}>
+          <label>
+            <Text size={'sm'}>Nome de usuário</Text>
+            <TextInput
+              {...register('username')}
+              prefix="ignite.com/"
+              placeholder="seu-usuário"
+              onPointerEnterCapture={undefined}
+              onPointerLeaveCapture={undefined}
+              crossOrigin={undefined}
+            />
+            {errors.username && (
+              <FormError size={'sm'}>{errors.username.message}</FormError>
+            )}
+          </label>
 
-        <label>
-          <Text size={'sm'}>Nome completo</Text>
-          <TextInput
-            {...register('name')}
-            placeholder="seu nome"
-            onPointerEnterCapture={undefined}
-            onPointerLeaveCapture={undefined}
-            crossOrigin={undefined}
-          />
-          {errors.name && (
-            <FormError size={'sm'}>{errors.name.message}</FormError>
-          )}
-        </label>
+          <label>
+            <Text size={'sm'}>Nome completo</Text>
+            <TextInput
+              {...register('name')}
+              placeholder="seu nome"
+              onPointerEnterCapture={undefined}
+              onPointerLeaveCapture={undefined}
+              crossOrigin={undefined}
+            />
+            {errors.name && (
+              <FormError size={'sm'}>{errors.name.message}</FormError>
+            )}
+          </label>
 
-        <Button
-          onClick={handleNavigateToNextStep}
-          disabled={isSubmitting}
-          type="submit"
-        >
-          Próximo passo
-          <ArrowRight weight="bold" />
-        </Button>
-      </Form>
-    </Container>
+          <Button
+            onClick={handleNavigateToNextStep}
+            disabled={isSubmitting}
+            type="submit"
+          >
+            Próximo passo
+            <ArrowRight weight="bold" />
+          </Button>
+        </Form>
+      </Container>
+    </>
   )
 }
