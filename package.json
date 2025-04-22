@@ -2,6 +2,10 @@
   "name": "ignite-call",
   "version": "0.1.0",
   "private": true,
+  "author": {
+    "name": "Rafael Brito",
+    "email": "rafael.brito.1422@gmail.com"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
