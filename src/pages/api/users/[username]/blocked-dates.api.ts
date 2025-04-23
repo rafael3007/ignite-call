@@ -23,6 +23,8 @@ export default async function handler(
     },
   })
 
+  console.log('user', user)
+
   if (!user) {
     return res.status(400).json({ message: 'User does not exist.' })
   }
@@ -46,7 +48,7 @@ export default async function handler(
   SELECT
     EXTRACT(DAY FROM S.DATE) AS date,
     COUNT(S.date),
-    ((UTI.time_end_in_minutes - UTI.time_start_in_minutes) / 60)
+    ((UTI.end_time_in_minutes - UTI.start_time_in_minutes) / 60)
 
   FROM schedulings S
 
@@ -58,10 +60,10 @@ export default async function handler(
     AND EXTRACT(MONTH FROM S.date) = ${month}::int
 
   GROUP BY EXTRACT(DAY FROM S.DATE),
-    ((UTI.time_end_in_minutes - UTI.time_start_in_minutes) / 60)
+    ((UTI.end_time_in_minutes - UTI.start_time_in_minutes) / 60)
 
   HAVING
-    COUNT(S.date) >= ((UTI.time_end_in_minutes - UTI.time_start_in_minutes) / 60);
+    COUNT(S.date) >= ((UTI.end_time_in_minutes - UTI.start_time_in_minutes) / 60);
 `
 
   const blockedDates = blockedDatesRaw.map((item) => item.date)
