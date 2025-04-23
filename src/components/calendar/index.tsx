@@ -14,14 +14,7 @@ import { useQuery } from '@tanstack/react-query'
 import type { BlockedDates } from '@/src/types/blocked-dates'
 import { api } from '@/src/lib/axios'
 import { useRouter } from 'next/router'
-
-interface CalendarWeek {
-  week: number
-  days: Array<{
-    date: dayjs.Dayjs
-    disabled: boolean
-  }>
-}
+import type { CalendarWeek } from '@/src/types/calendar'
 
 type CalendarWeeks = CalendarWeek[]
 
@@ -33,9 +26,8 @@ interface CalendarProps {
 export function Calendar({ onDateSelected, selectedDate }: CalendarProps) {
   const router = useRouter()
   const username = String(router.query.username)
-  console.log(selectedDate)
   const [currentDate, setCurrentDate] = useState(() => {
-    return dayjs().set('date', 1)
+    return dayjs(selectedDate).set('date', 1)
   })
 
   const currentMonth = currentDate.format('MMMM')

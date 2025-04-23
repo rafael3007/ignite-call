@@ -1,6 +1,4 @@
-interface getWeekDaysParams {
-  short?: boolean
-}
+import type { getWeekDaysParams } from '../types/calendar'
 
 export function getWeekDays({ short = false }: getWeekDaysParams) {
   const formatter = new Intl.DateTimeFormat('pt-BR', {

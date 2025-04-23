@@ -4,14 +4,7 @@ import { Container, UserHeader } from './styles'
 import { prisma } from '../../../lib/prisma'
 import { ScheduleForm } from './schedule-form'
 import { NextSeo } from 'next-seo'
-
-interface SchudeleProps {
-  user: {
-    name: string
-    bio: string
-    avatarUrl: string
-  }
-}
+import type { SchudeleProps } from '@/src/types/schedule'
 
 export default function Schedules({ user }: SchudeleProps) {
   return (

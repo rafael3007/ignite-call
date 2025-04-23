@@ -23,8 +23,6 @@ export default async function handler(
     },
   })
 
-  console.log('user', user)
-
   if (!user) {
     return res.status(400).json({ message: 'User does not exist.' })
   }

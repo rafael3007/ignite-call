@@ -35,12 +35,9 @@ export default function Register() {
 
       await router.push('/register/connect-calendar')
     } catch (error) {
-      console.log('sfgasd')
       if (error instanceof AxiosError && error?.response?.data.message) {
         return alert(error.response.data.message)
       }
-
-      console.error(error)
     }
   }
 
